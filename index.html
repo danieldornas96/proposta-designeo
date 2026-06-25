@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Interativa — Designeo Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F2DAAF;--preto:#061923;--vm:#C22B15;--am:#F0AC04;--vd:#017B41;--az:#016588;}
+body{background:var(--bg);color:var(--preto);font-family:'Cabinet Grotesk',sans-serif;min-height:100vh}
+.hdr{background:var(--preto);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--am)}
+.hdr-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:var(--bg)}
+.hdr-logo span{color:var(--am)}
+.hdr-sub{font-size:8px;letter-spacing:.16em;color:var(--az);text-transform:uppercase;margin-top:1px}
+.hdr-sel{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(242,218,175,.35)}
+.hdr-sel b{color:var(--am);font-family:'Bebas Neue',sans-serif;font-size:22px;vertical-align:middle;margin-right:2px}
+.hero{background:var(--preto);padding:52px 28px 44px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:0;right:0;width:35%;height:100%;background:repeating-linear-gradient(90deg,transparent,transparent 16px,rgba(242,218,175,.03) 16px,rgba(242,218,175,.03) 17px);pointer-events:none}
+.hero-inner{max-width:860px;margin:0 auto}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--am);font-weight:700;border:1px solid var(--am);padding:3px 10px;border-radius:2px;margin-bottom:18px}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8.5vw,84px);line-height:.92;letter-spacing:.02em;color:var(--bg);margin-bottom:22px;text-transform:uppercase}
+.hero-h1 .ac{color:var(--am);display:block}
+.hero-h1 .rd{color:var(--vm);display:block}
+.hero-p{font-size:13px;color:rgba(242,218,175,.55);line-height:1.7;max-width:480px;font-weight:400}
+.stripes{display:flex;height:7px}
+.st{flex:1}
+.st1{background:var(--vm)}.st2{background:var(--am)}.st3{background:var(--vd)}.st4{background:var(--az)}.st5{background:var(--preto)}
+.main{max-width:860px;margin:0 auto;padding:0 28px 180px}
+.section{margin-top:44px}
+.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.section-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--preto);opacity:.1;line-height:1;user-select:none}
+.section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:rgba(6,25,35,.5)}
+.section-badge{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:2px;margin-left:auto}
+.b-proj{background:var(--vm);color:var(--bg)}.b-rec{background:var(--az);color:var(--bg)}.b-add{background:var(--vd);color:var(--bg)}
+.section-line{height:3px;background:var(--preto);margin-bottom:1px}
+.section-line2{height:1px;background:rgba(6,25,35,.12);margin-bottom:18px}
+.pacote{border:2px solid rgba(6,25,35,.12);border-radius:4px;margin-bottom:10px;overflow:hidden;cursor:pointer;transition:all .15s;background:rgba(242,218,175,.4)}
+.pacote:hover{border-color:rgba(6,25,35,.3)}
+.pacote.selected{border-color:var(--preto);box-shadow:3px 3px 0 var(--preto);background:var(--bg)}
+.pacote-hdr{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:16px 18px}
+.pac-check{width:22px;height:22px;border:2px solid rgba(6,25,35,.2);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s}
+.pacote.selected .pac-check{background:var(--preto);border-color:var(--preto)}
+.pacote.selected .pac-check::after{content:'';display:block;width:6px;height:10px;border:2px solid var(--am);border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+.pac-nome{font-size:15px;font-weight:700;color:var(--preto);transition:color .15s;margin-bottom:3px}
+.pacote.selected .pac-nome{color:var(--vm)}
+.pac-desc{font-size:11px;color:rgba(6,25,35,.5);font-weight:400;line-height:1.4}
+.pac-body{display:none;padding:0 18px 14px 60px;border-top:1px solid rgba(6,25,35,.08)}
+.pacote.selected .pac-body{display:block}
+.pac-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.pac-tag{font-size:10px;font-weight:500;padding:3px 9px;border-radius:2px;background:var(--preto);color:var(--bg);letter-spacing:.02em}
+.custom-wrap{margin-top:56px;padding-top:32px;border-top:3px solid var(--preto)}
+.custom-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--preto);letter-spacing:.04em;margin-bottom:4px}
+.custom-desc{font-size:12px;color:rgba(6,25,35,.5);line-height:1.6;margin-bottom:24px;max-width:520px}
+.aviso{background:rgba(240,172,4,.1);border:1px solid rgba(240,172,4,.5);border-radius:3px;padding:10px 14px;margin-bottom:20px;font-size:12px;color:rgba(6,25,35,.65);line-height:1.5;display:none}
+.aviso.show{display:block}
+.sub-cat{margin-top:24px;margin-bottom:10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:rgba(6,25,35,.4);padding-bottom:6px;border-bottom:1px solid rgba(6,25,35,.1)}
+.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:4px}
+.item-card{border:1.5px solid rgba(6,25,35,.12);border-radius:4px;padding:12px 14px;cursor:pointer;transition:all .15s;background:rgba(242,218,175,.3);user-select:none}
+.item-card:hover:not(.item-disabled){border-color:rgba(6,25,35,.3);background:rgba(242,218,175,.6)}
+.item-card.item-selected{border-color:var(--vd);background:rgba(1,123,65,.08);box-shadow:2px 2px 0 var(--vd)}
+.item-card.item-disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
+.item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.item-check{width:16px;height:16px;border:1.5px solid rgba(6,25,35,.2);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.item-card.item-selected .item-check{background:var(--vd);border-color:var(--vd)}
+.item-card.item-selected .item-check::after{content:'';display:block;width:4px;height:7px;border:1.5px solid white;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+.item-modelo{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 5px;border-radius:2px}
+.mod-p{background:rgba(194,43,21,.1);color:var(--vm)}
+.mod-r{background:rgba(1,101,136,.1);color:var(--az)}
+.item-nome{font-size:12px;font-weight:700;color:var(--preto);line-height:1.3;transition:color .15s}
+.item-card.item-selected .item-nome{color:var(--vd)}
+.item-incl{font-size:9px;color:var(--vd);font-weight:600;margin-top:4px}
+.resumo{position:fixed;bottom:0;left:0;right:0;background:var(--preto);border-top:3px solid var(--am);padding:14px 28px;display:none;z-index:99}
+.resumo.visible{display:block}
+.resumo-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.res-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(242,218,175,.4);margin-bottom:2px}
+.res-count{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--bg);letter-spacing:.04em}
+.res-itens{font-size:10px;color:rgba(242,218,175,.4);margin-top:2px;max-width:380px;line-height:1.4}
+.res-right{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.btn-wpp{display:inline-flex;align-items:center;gap:8px;background:var(--am);color:var(--preto);font-family:'Cabinet Grotesk',sans-serif;font-size:12px;font-weight:800;padding:11px 22px;border-radius:3px;border:none;cursor:pointer;text-decoration:none;transition:opacity .15s;letter-spacing:.04em;text-transform:uppercase}
+.btn-wpp:hover{opacity:.85}
+.btn-limpar{font-family:'Cabinet Grotesk',sans-serif;font-size:11px;font-weight:600;color:rgba(242,218,175,.4);background:none;border:1px solid rgba(242,218,175,.15);padding:11px 14px;border-radius:3px;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.06em}
+.btn-limpar:hover{border-color:var(--bg);color:var(--bg)}
+.footer{background:var(--preto);border-top:1px solid rgba(242,218,175,.08);padding:24px 28px}
+.footer-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.1em;color:rgba(242,218,175,.3)}
+.footer-info{font-size:10px;color:rgba(242,218,175,.3);line-height:1.7;text-align:right}
+@media(max-width:600px){
+  .hdr,.hero,.main,.resumo,.footer{padding-left:18px;padding-right:18px}
+  .items-grid{grid-template-columns:1fr 1fr}
+  .resumo-inner{flex-direction:column;align-items:flex-start}
+  .footer-info{text-align:left}
+  .pac-body{padding-left:18px}
+}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div><div class="hdr-logo">DESIGNEO <span>STUDIO</span></div><div class="hdr-sub">Design & Brand · Daniel Dornas</div></div>
+  <div class="hdr-sel"><b id="hdr-count">0</b> selecionados</div>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">✦ Proposta Interativa</div>
+    <h1 class="hero-h1">MONTE SUA<span class="ac">PROPOSTA</span><span class="rd">AGORA.</span></h1>
+    <p class="hero-p">Selecione um ou mais pacotes — ou monte do zero na seção de itens avulsos abaixo. Itens já inclusos em pacotes são desativados automaticamente.</p>
+  </div>
+</section>
+<div class="stripes"><div class="st st1"></div><div class="st st2"></div><div class="st st3"></div><div class="st st4"></div><div class="st st5"></div></div>
+<main class="main">
+  <div class="section">
+    <div class="section-hdr"><div class="section-num">01</div><div class="section-title">Identidade & Branding</div><div class="section-badge b-proj">Projeto único</div></div>
+    <div class="section-line"></div><div class="section-line2"></div>
+    <div class="pacote" id="pac-iv" onclick="togglePac(this,'pac-iv')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Identidade Visual Completa</div><div class="pac-desc">Construção da linguagem visual do zero — logo, cores, tipografia, elementos e manual</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Logotipo principal</span><span class="pac-tag">Variações do logo</span><span class="pac-tag">Versão negativa</span><span class="pac-tag">Paleta de cores</span><span class="pac-tag">Tipografia</span><span class="pac-tag">Elementos gráficos</span><span class="pac-tag">Mockups reais</span><span class="pac-tag">Manual básico</span><span class="pac-tag">Arquivos finais</span></div></div></div>
+    <div class="pacote" id="pac-rb" onclick="togglePac(this,'pac-rb')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Rebranding</div><div class="pac-desc">Atualização e modernização de marca existente com novo direcionamento estratégico</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Diagnóstico da marca atual</span><span class="pac-tag">Nova direção criativa</span><span class="pac-tag">Logotipo atualizado</span><span class="pac-tag">Paleta de cores</span><span class="pac-tag">Tipografia</span><span class="pac-tag">Comparativo antes/depois</span><span class="pac-tag">Arquivos finais</span></div></div></div>
+    <div class="pacote" id="pac-mm" onclick="togglePac(this,'pac-mm')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Manual de Marca</div><div class="pac-desc">Guia completo de uso da identidade visual com regras e diretrizes</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Conceito e história da marca</span><span class="pac-tag">Regras de uso do logo</span><span class="pac-tag">Paleta de cores oficial</span><span class="pac-tag">Tipografia e hierarquia</span><span class="pac-tag">Aplicações corretas</span><span class="pac-tag">Aplicações incorretas</span><span class="pac-tag">PDF final</span></div></div></div>
+  </div>
+  <div class="section">
+    <div class="section-hdr"><div class="section-num">02</div><div class="section-title">Comunicação & Estratégia</div><div class="section-badge b-proj">Projeto único</div></div>
+    <div class="section-line"></div><div class="section-line2"></div>
+    <div class="pacote" id="pac-ap" onclick="togglePac(this,'pac-ap')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Apresentação Comercial</div><div class="pac-desc">Pitch decks, propostas e apresentações institucionais com design profissional</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Estrutura estratégica</span><span class="pac-tag">Design alinhado à marca</span><span class="pac-tag">Slides editáveis</span><span class="pac-tag">Versão PDF</span><span class="pac-tag">Versão PowerPoint/Google Slides</span></div></div></div>
+    <div class="pacote" id="pac-pe" onclick="togglePac(this,'pac-pe')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Planejamento Estratégico de Comunicação</div><div class="pac-desc">Diagnóstico, posicionamento e diretrizes completas de comunicação da marca</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Diagnóstico de marca</span><span class="pac-tag">Análise de concorrência</span><span class="pac-tag">Definição de público</span><span class="pac-tag">Posicionamento</span><span class="pac-tag">Tom de voz</span><span class="pac-tag">Diretrizes de comunicação</span><span class="pac-tag">Documento PDF</span></div></div></div>
+    <div class="pacote" id="pac-cat" onclick="togglePac(this,'pac-cat')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Catálogo Digital</div><div class="pac-desc">Catálogo visual para restaurantes, cosméticos e indústria</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Design completo</span><span class="pac-tag">Organização dos produtos</span><span class="pac-tag">Versão para WhatsApp</span><span class="pac-tag">Versão para redes sociais</span><span class="pac-tag">Arquivo editável</span></div></div></div>
+  </div>
+  <div class="section">
+    <div class="section-hdr"><div class="section-num">03</div><div class="section-title">Digital & Performance</div><div class="section-badge b-rec">Mensal</div></div>
+    <div class="section-line"></div><div class="section-line2"></div>
+    <div class="pacote" id="pac-sm" onclick="togglePac(this,'pac-sm')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Gestão de Social Media</div><div class="pac-desc">Planejamento e criação de conteúdo mensal para redes sociais</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Planejamento editorial mensal</span><span class="pac-tag">Posts estáticos</span><span class="pac-tag">Carrosséis</span><span class="pac-tag">Stories</span><span class="pac-tag">Legendas e hashtags</span><span class="pac-tag">Calendário editorial</span><span class="pac-tag">Relatório mensal</span></div></div></div>
+    <div class="pacote" id="pac-tp" onclick="togglePac(this,'pac-tp')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Gestão de Tráfego Pago</div><div class="pac-desc">Criação e otimização de campanhas no Meta Ads e Google Ads</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Criação de campanhas</span><span class="pac-tag">Segmentação do público</span><span class="pac-tag">Criação de criativos</span><span class="pac-tag">Testes A/B</span><span class="pac-tag">Otimização semanal</span><span class="pac-tag">Relatório de performance</span></div></div></div>
+    <div class="pacote" id="pac-dc" onclick="togglePac(this,'pac-dc')"><div class="pacote-hdr"><div class="pac-check"></div><div><div class="pac-nome">Direção Criativa Terceirizada</div><div class="pac-desc">Direção e revisão de campanhas e linguagem visual para agências e empresas</div></div></div><div class="pac-body"><div class="pac-tags"><span class="pac-tag">Direção de campanhas</span><span class="pac-tag">Revisão e aprovação de peças</span><span class="pac-tag">Alinhamento de linguagem visual</span><span class="pac-tag">Orientação da equipe criativa</span><span class="pac-tag">Posicionamento de marca</span></div></div></div>
+  </div>
+  <div class="custom-wrap">
+    <div class="custom-title">ITENS AVULSOS</div>
+    <div class="custom-desc">Quer algo específico? Selecione os itens individuais. Itens já inclusos em pacotes selecionados são desativados automaticamente.</div>
+    <div class="aviso" id="aviso">⚠ Alguns itens estão desativados pois já estão inclusos em pacotes selecionados acima.</div>
+    <div class="sub-cat">Identidade Visual & Logo</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-logo-principal" onclick="toggleItem(this,'item-logo-principal')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Logotipo principal</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-variacoes-logo" onclick="toggleItem(this,'item-variacoes-logo')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Variações do logo</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-versao-negativa" onclick="toggleItem(this,'item-versao-negativa')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Versão negativa do logo</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-paleta-cores" onclick="toggleItem(this,'item-paleta-cores')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Paleta de cores oficial</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-tipografia" onclick="toggleItem(this,'item-tipografia')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Tipografia da marca</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-elementos-graficos" onclick="toggleItem(this,'item-elementos-graficos')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Elementos gráficos de apoio</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-mockups" onclick="toggleItem(this,'item-mockups')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Mockups de aplicação</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-arquivos-finais" onclick="toggleItem(this,'item-arquivos-finais')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Arquivos finais (PNG, SVG, PDF, AI)</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+    <div class="sub-cat">Manual de Marca</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-conceito-marca" onclick="toggleItem(this,'item-conceito-marca')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Conceito e história da marca</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-regras-logo" onclick="toggleItem(this,'item-regras-logo')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Regras de uso do logo</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-aplicacoes-corretas" onclick="toggleItem(this,'item-aplicacoes-corretas')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Aplicações corretas e incorretas</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-manual-pdf" onclick="toggleItem(this,'item-manual-pdf')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Manual completo em PDF</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+    <div class="sub-cat">Comunicação & Estratégia</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-pitch-deck" onclick="toggleItem(this,'item-pitch-deck')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Pitch deck para investidores</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-proposta-comercial" onclick="toggleItem(this,'item-proposta-comercial')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Proposta comercial visual</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-apresentacao-inst" onclick="toggleItem(this,'item-apresentacao-inst')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Apresentação institucional</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-diagnostico" onclick="toggleItem(this,'item-diagnostico')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Diagnóstico de marca</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-posicionamento" onclick="toggleItem(this,'item-posicionamento')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Posicionamento de marca</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-tom-voz" onclick="toggleItem(this,'item-tom-voz')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Tom de voz e linguagem</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-catalogo" onclick="toggleItem(this,'item-catalogo')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-p">Projeto</span></div><div class="item-nome">Catálogo digital de produtos</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+    <div class="sub-cat">Social Media & Conteúdo</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-planejamento-editorial" onclick="toggleItem(this,'item-planejamento-editorial')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Planejamento editorial mensal</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-posts-estaticos" onclick="toggleItem(this,'item-posts-estaticos')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Criação de posts estáticos</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-carrosseis" onclick="toggleItem(this,'item-carrosseis')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Carrosséis</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-stories" onclick="toggleItem(this,'item-stories')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Stories</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-legendas" onclick="toggleItem(this,'item-legendas')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Legendas e hashtags</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-relatorio-sm" onclick="toggleItem(this,'item-relatorio-sm')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Relatório mensal de resultados</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+    <div class="sub-cat">Tráfego Pago</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-campanhas" onclick="toggleItem(this,'item-campanhas')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Criação de campanhas</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-segmentacao" onclick="toggleItem(this,'item-segmentacao')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Segmentação do público</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-criativos" onclick="toggleItem(this,'item-criativos')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Criação de criativos para anúncios</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-otimizacao" onclick="toggleItem(this,'item-otimizacao')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Otimização semanal de campanhas</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-relatorio-tp" onclick="toggleItem(this,'item-relatorio-tp')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Relatório de performance</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+    <div class="sub-cat">Direção Criativa</div>
+    <div class="items-grid">
+      <div class="item-card" id="item-direcao-campanhas" onclick="toggleItem(this,'item-direcao-campanhas')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Direção de campanhas</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-revisao-pecas" onclick="toggleItem(this,'item-revisao-pecas')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Revisão e aprovação de peças</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-alinhamento-visual" onclick="toggleItem(this,'item-alinhamento-visual')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Alinhamento de linguagem visual</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+      <div class="item-card" id="item-orientacao-equipe" onclick="toggleItem(this,'item-orientacao-equipe')"><div class="item-top"><div class="item-check"></div><span class="item-modelo mod-r">Mensal</span></div><div class="item-nome">Orientação da equipe criativa</div><div class="item-incl" style="display:none">✓ Incluso em pacote</div></div>
+    </div>
+  </div>
+</main>
+<div class="resumo" id="resumo">
+  <div class="resumo-inner">
+    <div><div class="res-label">Você selecionou</div><div class="res-count" id="res-count">0 itens</div><div class="res-itens" id="res-itens"></div></div>
+    <div class="res-right"><button class="btn-limpar" onclick="limpar()">Limpar</button><a class="btn-wpp" id="btn-wpp" href="#" target="_blank">Solicitar via WhatsApp →</a></div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Designeo Studio</div>
+    <div class="footer-info">Daniel Dornas · Designer Gráfico & Brand Strategist<br>(24) 98125-4849 · @designeostudio</div>
+  </div>
+</footer>
+<script>
+var pacItems={'pac-iv':['item-logo-principal','item-variacoes-logo','item-versao-negativa','item-paleta-cores','item-tipografia','item-elementos-graficos','item-mockups','item-arquivos-finais'],'pac-rb':['item-logo-principal','item-variacoes-logo','item-paleta-cores','item-tipografia','item-mockups','item-arquivos-finais','item-diagnostico'],'pac-mm':['item-conceito-marca','item-regras-logo','item-paleta-cores','item-tipografia','item-aplicacoes-corretas','item-manual-pdf'],'pac-ap':['item-pitch-deck','item-proposta-comercial','item-apresentacao-inst'],'pac-pe':['item-diagnostico','item-posicionamento','item-tom-voz'],'pac-cat':['item-catalogo'],'pac-sm':['item-planejamento-editorial','item-posts-estaticos','item-carrosseis','item-stories','item-legendas','item-relatorio-sm'],'pac-tp':['item-campanhas','item-segmentacao','item-criativos','item-otimizacao','item-relatorio-tp'],'pac-dc':['item-direcao-campanhas','item-revisao-pecas','item-alinhamento-visual','item-orientacao-equipe']};
+var pacNomes={'pac-iv':'Identidade Visual Completa','pac-rb':'Rebranding','pac-mm':'Manual de Marca','pac-ap':'Apresentação Comercial','pac-pe':'Planejamento Estratégico de Comunicação','pac-cat':'Catálogo Digital','pac-sm':'Gestão de Social Media','pac-tp':'Gestão de Tráfego Pago','pac-dc':'Direção Criativa Terceirizada'};
+var selectedPac={};var selectedItems={};
+function getItemNome(id){var el=document.getElementById(id);return el?el.querySelector('.item-nome').textContent:id;}
+function togglePac(el,id){var on=!selectedPac[id];selectedPac[id]=on;el.classList.toggle('selected',on);var items=pacItems[id]||[];items.forEach(function(itemId){var itemEl=document.getElementById(itemId);var inclEl=itemEl?itemEl.querySelector('.item-incl'):null;if(on){if(itemEl){itemEl.dataset.blockedBy=(parseInt(itemEl.dataset.blockedBy||'0')+1).toString();itemEl.classList.add('item-disabled');if(inclEl)inclEl.style.display='block';if(selectedItems[itemId]){selectedItems[itemId]=false;itemEl.classList.remove('item-selected');}}}else{if(itemEl){var count=parseInt(itemEl.dataset.blockedBy||'1')-1;itemEl.dataset.blockedBy=count.toString();if(count<=0){itemEl.classList.remove('item-disabled');if(inclEl)inclEl.style.display='none';}}}});atualizar();}
+function toggleItem(el,id){if(el.classList.contains('item-disabled'))return;var on=!selectedItems[id];selectedItems[id]=on;el.classList.toggle('item-selected',on);atualizar();}
+function atualizar(){var itens=[];Object.keys(selectedPac).forEach(function(id){if(selectedPac[id])itens.push(pacNomes[id]);});Object.keys(selectedItems).forEach(function(id){if(selectedItems[id])itens.push(getItemNome(id));});var total=itens.length;document.getElementById('hdr-count').textContent=total;document.getElementById('res-count').textContent=total+' item'+(total!==1?'s':'');document.getElementById('res-itens').textContent=itens.slice(0,4).join(' · ')+(itens.length>4?' +'+(itens.length-4)+' mais':'');var hasPac=Object.values(selectedPac).some(Boolean);document.getElementById('aviso').classList.toggle('show',hasPac);document.getElementById('resumo').classList.toggle('visible',total>0);var msg='Olá Daniel! Tenho interesse nos seguintes serviços do Designeo Studio:\n\n';itens.forEach(function(n){msg+='✓ '+n+'\n';});msg+='\nPoderia me enviar os valores e mais detalhes?';document.getElementById('btn-wpp').href='https://wa.me/5524981254849?text='+encodeURIComponent(msg);}
+function limpar(){selectedPac={};selectedItems={};document.querySelectorAll('.pacote.selected').forEach(function(el){el.classList.remove('selected');});document.querySelectorAll('.item-card.item-selected').forEach(function(el){el.classList.remove('item-selected');});document.querySelectorAll('.item-card.item-disabled').forEach(function(el){el.classList.remove('item-disabled');el.dataset.blockedBy='0';});document.querySelectorAll('.item-incl').forEach(function(el){el.style.display='none';});atualizar();}
+</script>
+</body>
+</html>
